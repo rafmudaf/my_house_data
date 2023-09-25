@@ -6,9 +6,16 @@ import copy
 import hmac
 
 
-def getTime():
-    timestamp = int(datetime.datetime.now().timestamp() * 1e6)
+def get_timestamp():
+    """
+    Returns a timestamp in milliseconds in UTC.
+
+    Returns:
+        int: timestamp
+    """
+    timestamp = int(datetime.datetime.now().timestamp() * 1e3)
     return timestamp
+
 
 def stringToSign(query, mode, method, secret, url):
     # Generate signature string
@@ -21,12 +28,14 @@ def stringToSign(query, mode, method, secret, url):
     map["url"] = url
     return map
 
+
 def HmacSHA256(string, secret):
     return hmac.new(
         bytes(secret, 'latin-1'), 
         msg=bytes(string, 'latin-1'), 
         digestmod=hashlib.sha256
     ).hexdigest().upper()
+
 
 def calcSignToken(clientId, timestamp, nonce, signStr, secret):
     # Token verification calculation
@@ -35,6 +44,7 @@ def calcSignToken(clientId, timestamp, nonce, signStr, secret):
     hashInBase64 = hash #.toString()
     signUp = hashInBase64 #.toUpperCase()
     return signUp
+
 
 def get_auth(client_id, secret, url, timestamp):
     httpMethod = "GET"
@@ -52,7 +62,6 @@ def get_auth(client_id, secret, url, timestamp):
     return sign
 
 
-
 def calcSignBusiness(clientId, accessToken, timestamp, nonce, signStr, secret):
     # Business verification calculation
     string = clientId + accessToken + str(timestamp) + nonce + signStr
@@ -60,6 +69,7 @@ def calcSignBusiness(clientId, accessToken, timestamp, nonce, signStr, secret):
     hashInBase64 = hash #.toString()
     signUp = hashInBase64 #.toUpperCase()
     return signUp
+
 
 def get_auth_business(client_id, accessToken, secret, url, timestamp):
     httpMethod = "GET"
@@ -97,8 +107,7 @@ if __name__ == "__main__":
     ###
 
 
-    timestamp = 1695657834092 # int(datetime.datetime.now().timestamp() * 1e6)
-    # timestamp = int(datetime.datetime.now().timestamp() * 1e6)
+    timestamp = get_timestamp()
 
     # Authenticate
     token_url = f"/v1.0/token?grant_type=1"
