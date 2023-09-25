@@ -99,7 +99,6 @@ if __name__ == "__main__":
         data = json.load(open("config.json", "r"))
         CLIENT_ID = data["CLIENT_ID"]
         SECRET = data["SECRET"]
-
     EASY_ACCESS_TOKEN = None
     HEADERS = {
         'client_id': CLIENT_ID,
