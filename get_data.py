@@ -128,7 +128,7 @@ if __name__ == "__main__":
     if not success:
         print(response.text)
         exit
-    
+
     result = response_data["result"]
     access_token = result["access_token"]
     expire_time = result["expire_time"]
@@ -137,8 +137,9 @@ if __name__ == "__main__":
 
     print(response.json())
 
+    temps, hums, batts = [], [], []
     headers["access_token"] = access_token
-    for name, id in device_ids.items():
+    for id in device_ids:
         device_URL = f"/v1.0/devices/{id}/status"
         headers["sign"] = get_auth_business(CLIENT_ID, access_token, SECRET, device_URL, timestamp)
         response = requests.request(
@@ -154,17 +155,24 @@ if __name__ == "__main__":
         if not success:
             print(response.text)
             exit
+            # TODO: fill with null data when the request fails
 
         result = response_data["result"] # Should be a list of data with form: [{"code":"va_temperature","value":260},{"code":"va_humidity","value":564},{"code":"battery_percentage","value":100}]
         for dp in result:
             match dp["code"]:
                 case "va_temperature":
-                    current_temperature = dp["value"]
+                    temps.append(dp["value"])
                 case "va_humidity":
-                    current_humidity = dp["value"]
+                    hums.append(dp["value"])
                 case "battery_percentage":
-                    current_battery = dp["value"]
+                    batts.append(dp["value"])
 
-        print("temp:", current_temperature)
-        print("humidity:", current_humidity)
-        print("battery:", current_battery)
+    with open("datapoints.csv", "a") as datapointscsv:
+        datastring = ",".join(
+                [str(timestamp)] +
+                [str(t) for t in temps] +
+                [str(h) for h in hums] +
+                [str(b) for b in batts]
+            )
+        datapointscsv.write("\n")
+        datapointscsv.write(datastring)
