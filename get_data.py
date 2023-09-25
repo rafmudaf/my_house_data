@@ -1,9 +1,11 @@
 
-import requests
+import copy
 import datetime;
 import hashlib
-import copy
 import hmac
+import json
+import os
+import requests
 
 
 def get_timestamp():
@@ -90,20 +92,30 @@ def get_auth_business(client_id, accessToken, secret, url, timestamp):
 if __name__ == "__main__":
 
     ### CONFIG
-    CLIENT_ID = ''
-    SECRET = ""
+    if os.getenv('CI'):
+        CLIENT_ID = os.getenv("CLIENT_ID")
+        SECRET = os.getenv("SECRET")
+    else:
+        data = json.load(open("config.json", "r"))
+        CLIENT_ID = data["CLIENT_ID"]
+        SECRET = data["SECRET"]
+
     EASY_ACCESS_TOKEN = None
     HEADERS = {
         'client_id': CLIENT_ID,
-        'access_token': '',
+        # 'access_token': '',
         # 'sign': '',
         # 't': '',
         'sign_method': 'HMAC-SHA256'
     }
     URL_HOST = "https://openapi.tuyaus.com/"
 
-    device_ids = {
-    }
+    device_ids = [
+        "eb31c4a2913640b0d1xowo",
+        "ebf562fa0e3423e8cbmwfy",
+        "eb17d322c22622aa27z5tl",
+        "ebd316a0fbb97cc669d2pv",
+    ]
     ###
 
 
