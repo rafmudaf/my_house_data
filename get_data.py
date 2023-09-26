@@ -110,10 +110,10 @@ if __name__ == "__main__":
     URL_HOST = "https://openapi.tuyaus.com/"
 
     device_ids = [
-        "eb31c4a2913640b0d1xowo",
-        "ebf562fa0e3423e8cbmwfy",
-        "eb17d322c22622aa27z5tl",
-        "ebd316a0fbb97cc669d2pv",
+        "eb31c4a2913640b0d1xowo",  # Sensor 1 - hallway
+        "ebf562fa0e3423e8cbmwfy",  # Sensor 2 - kitchen
+        "eb17d322c22622aa27z5tl",  # Sensor 3 - bedroom
+        "ebd316a0fbb97cc669d2pv",  # Sensor 4 - back room
     ]
     ###
 
