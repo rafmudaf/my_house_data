@@ -9,7 +9,7 @@ labels = [
     "Hallway", # Sensor 1 - 
     "Kitchen", # Sensor 2 - 
     "Bed room", # Sensor 3 - 
-    "Back room", # Sensor 4 - 
+    "Back room / office", # Sensor 4 - 
 ]
 
 with open("datapoints.csv", "r") as datafile:
