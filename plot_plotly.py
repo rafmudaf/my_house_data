@@ -15,7 +15,6 @@ TEMPCOLORS = {
     3: "#cd298b",
     4: "#5c2832",
 }
-
 HUMCOLORS = {
     1: "#000",
     2: "#698cfd",
@@ -41,32 +40,55 @@ fig = make_subplots(
     shared_xaxes=True
 )
 
+# Temperature plot
 for i in range(1,5):
     fig.add_trace(
         go.Scatter(
             x=list(df.Date),
             y=list(df[f"temp{i}"]),
             # visible="legendonly"
-            name=f"Temp {ROOMMAP[i]}",
-            line_color=TEMPCOLORS[i]
+            name=f"{ROOMMAP[i]}",
+            line_color=TEMPCOLORS[i],
         ),
         1,
         1
     )
+fig.add_annotation(
+    xref="x domain",
+    yref="y domain",
+    x=0.5,
+    y=1.1,
+    showarrow=False,
+    text="Temperature",
+    row=1,
+    col=1
+)
 
+# Humidity plot
 for i in range(1,5):
     fig.add_trace(
         go.Scatter(
             x=list(df.Date),
             y=list(df[f"hum{i}"]),
             # visible="legendonly"
-            name=f"Hum {ROOMMAP[i]}",
-            line_color=HUMCOLORS[i]
+            name=f"{ROOMMAP[i]}",
+            line_color=HUMCOLORS[i],
         ),
         2,
         1
     )
+fig.add_annotation(
+    xref="x domain",
+    yref="y domain",
+    x=0.5,
+    y=1.1,
+    showarrow=False,
+    text="Humidity",
+    row=2,
+    col=1
+)
 
+# Main layout
 fig.update_layout(
     title_text="Temperature and Humidity",
     xaxis=dict(
