@@ -38,6 +38,8 @@ for i in range(1,5):
     # Humidity are multiplied by 10 and stored as ints on the sensor
     df[f"hum{i}"] = df[f"hum{i}"] / 10.0
 
+weather_df = pd.read_csv("weather_data.csv")
+weather_df["Date"] = pd.to_datetime(weather_df["Timestamp"]/1e3, unit="s")
 
 fig = make_subplots(
     rows=3,
@@ -47,6 +49,17 @@ fig = make_subplots(
 )
 
 # Temperature plot
+fig.add_trace(
+    go.Scatter(
+        x=list(weather_df.Date),
+        y=list(weather_df["Temperature"]),
+        # visible="legendonly"
+        name=f"St Roch Temperature",
+        # line_color=TEMPCOLORS[i],
+    ),
+    1,
+    1
+)
 for i in range(1,5):
     fig.add_trace(
         go.Scatter(
@@ -71,6 +84,17 @@ fig.add_annotation(
 )
 
 # Humidity plot
+fig.add_trace(
+    go.Scatter(
+        x=list(weather_df.Date),
+        y=list(weather_df["Humidity"]),
+        # visible="legendonly"
+        name=f"St Roch Humidity",
+        # line_color=TEMPCOLORS[i],
+    ),
+    2,
+    1
+)
 for i in range(1,5):
     fig.add_trace(
         go.Scatter(
