@@ -21,6 +21,12 @@ HUMCOLORS = {
     3: "#2749f5",
     4: "#0f20c3",
 }
+BATTCOLORS = {
+    1: "#000",
+    2: "#b8b8b8",
+    3: "#767676",
+    4: "#3c3c3c",
+}
 
 df = pd.read_csv("datapoints.csv")
 df["Date"] = pd.to_datetime(df["timestamp"]/1e3, unit="s")
@@ -34,7 +40,7 @@ for i in range(1,5):
 
 
 fig = make_subplots(
-    rows=2,
+    rows=3,
     cols=1,
     vertical_spacing=0.065,
     shared_xaxes=True
@@ -88,6 +94,30 @@ fig.add_annotation(
     col=1
 )
 
+# Battery plot
+for i in range(1,5):
+    fig.add_trace(
+        go.Scatter(
+            x=list(df.Date),
+            y=list(df[f"batt{i}"]),
+            # visible="legendonly"
+            name=f"{ROOMMAP[i]}",
+            line_color=BATTCOLORS[i],
+        ),
+        3,
+        1
+    )
+fig.add_annotation(
+    xref="x domain",
+    yref="y domain",
+    x=0.5,
+    y=1.1,
+    showarrow=False,
+    text="Battery Level",
+    row=3,
+    col=1
+)
+
 # Main layout
 fig.update_layout(
     title_text="Temperature and Humidity",
@@ -137,8 +167,8 @@ fig.update_layout(
         },
         type="date"
     ),
-    xaxis2_rangeslider_visible=True,
-    xaxis2_type="date"
+    # xaxis3_rangeslider_visible=True,
+    # xaxis3_type="date"
 )
 
 fig.write_html("docs/index.html")
