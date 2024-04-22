@@ -38,10 +38,10 @@ The job is called
 and it does the following steps:
 1. Clone the repository
 2. Install the required Python packages
-3. Run the `get_data.py` script
+3. Run the `get_sensor_data.py` script
 4. Commit the changes to the csv database file to the repository
 
-The [get_data.py](https://github.com/rafmudaf/my_house_data/blob/main/get_data.py) script
+The [get_sensor_data.py](https://github.com/rafmudaf/my_house_data/blob/main/get_sensor_data.py) script
 contains a data processing pipeline specific to this data.
 At a high level, it does the following:
 1. Authenticate with the Tuya API resulting in an authentication token for future API requests
@@ -64,7 +64,7 @@ with this following configuration:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add datapoints.csv
+          git add sensor_data.csv
           git commit -m "Update DB" --allow-empty
           git push
 ```

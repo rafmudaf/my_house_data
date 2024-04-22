@@ -28,7 +28,7 @@ BATTCOLORS = {
     4: "#3c3c3c",
 }
 
-df = pd.read_csv("datapoints.csv")
+df = pd.read_csv("sensor_data.csv")
 df["Date"] = pd.to_datetime(df["timestamp"]/1e3, unit="s")
 for i in range(1,5):
     # Convert temperature from Celsius to Fahrenheit

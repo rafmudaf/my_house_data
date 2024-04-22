@@ -12,7 +12,7 @@ labels = [
     "Back room / office", # Sensor 4 - 
 ]
 
-with open("datapoints.csv", "r") as datafile:
+with open("sensor_data.csv", "r") as datafile:
     filecontents = datafile.readlines()
 
 # Remove carriage returns

@@ -178,7 +178,7 @@ if __name__ == "__main__":
                 case "battery_percentage":
                     batts.append(dp["value"])
 
-    with open("datapoints.csv", "a") as datapointscsv:
+    with open("sensor_data.csv", "a") as datapointscsv:
         datastring = ",".join(
                 [str(timestamp)] +
                 [str(t) for t in temps] +

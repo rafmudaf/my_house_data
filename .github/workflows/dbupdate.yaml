@@ -38,14 +38,14 @@ jobs:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           SECRET: ${{ secrets.SECRET }}
         run: |
-          python get_data.py
+          python get_sensor_data.py
 
       - name: Save
         working-directory: ${{runner.workspace}}/my_house_data/
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add datapoints.csv
+          git add sensor_data.csv
           git commit -m "Update DB" --allow-empty
           git push
 
