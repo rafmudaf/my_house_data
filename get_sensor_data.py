@@ -7,6 +7,8 @@ import json
 import os
 import requests
 
+print('Hello world!')
+
 
 def get_timestamp():
     """
