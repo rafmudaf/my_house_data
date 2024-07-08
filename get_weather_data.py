@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 if __name__ == "__main__":
 
     # Start date
-    start_date = datetime(2024, 6, 1)
+    start_date = datetime(2024, 7, 3)
     # End date (today)
-    end_date = datetime(2024, 6, 2)
+    end_date = datetime(2024, 7, 7)
 
     # Loop over the dates
     current_date = start_date
@@ -25,6 +25,7 @@ if __name__ == "__main__":
         STROCHID = "KLANEWOR454"
         DATA_TABULAR_URL = f'{URL_HOST}/{PWS_ENDPOINT}/{STROCHID}/table/{TARGET_DAY}/{TARGET_DAY}/daily'
         response = requests.get(DATA_TABULAR_URL)
+        # print(response)
         # print(response.content)
 
         soup = BeautifulSoup(response.content, 'html.parser')
