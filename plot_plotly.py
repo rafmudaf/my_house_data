@@ -69,8 +69,14 @@ fig = make_subplots(
     rows=3,
     cols=1,
     vertical_spacing=0.065,
-    shared_xaxes=True
+    shared_xaxes=True,
+    specs=[
+        [{"secondary_y": True}],
+        [{"secondary_y": False}],
+        [{"secondary_y": False}]
+    ]
 )
+# print(fig.layout)
 
 # Temperature plot
 fig.add_trace(
@@ -82,7 +88,24 @@ fig.add_trace(
         # line_color=TEMPCOLORS[i],
     ),
     1,
-    1
+    1,
+    secondary_y=False,
+)
+fig.add_trace(
+    go.Scatter(
+        x=list(weather_df.Date),
+        y=list(weather_df["Solar"]),
+        # visible="legendonly"
+        name=f"St Roch Solar Radiance",
+        line=dict(
+            color="#000",
+            width=0.8,
+            dash="dot"
+        )
+    ),
+    1,
+    1,
+    secondary_y=True
 )
 for i in range(1,N_SENSORS+1):
     fig.add_trace(
@@ -94,7 +117,8 @@ for i in range(1,N_SENSORS+1):
             line_color=TEMPCOLORS[i],
         ),
         1,
-        1
+        1,
+        secondary_y=False,
     )
 fig.add_annotation(
     xref="x domain",
