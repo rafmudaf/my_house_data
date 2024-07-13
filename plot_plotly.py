@@ -5,32 +5,51 @@ import pandas as pd
 
 ROOMMAP = {
     1: "Hallway (Ref)",
-    2: "Kitchen",
+    2: "Attic",
     3: "Bedroom",
     4: "Back room",
+    5: "Kitchen",
+    6: "Crawl space",
 }
 TEMPCOLORS = {
     1: "#000",
     2: "#fa6efa",
     3: "#cd298b",
     4: "#5c2832",
+    5: "#000",
+    6: "#000",
 }
 HUMCOLORS = {
     1: "#000",
     2: "#698cfd",
     3: "#2749f5",
     4: "#0f20c3",
+    5: "#000",
+    6: "#000",
 }
 BATTCOLORS = {
     1: "#000",
     2: "#b8b8b8",
     3: "#767676",
     4: "#3c3c3c",
+    5: "#000",
+    6: "#000",
 }
 
+N_SENSORS = len(ROOMMAP)
+
+TIMEZONE = "US/Central"     # Data is in UTC, this sets the timezone to display the data on the dashboard
+# TIME_FMT = "%b %d, %y %I:%M p"
+# TIME_FMT = "%d/%m/%Y"
+
 df = pd.read_csv("sensor_data.csv")
-df["Date"] = pd.to_datetime(df["timestamp"]/1e3, unit="s")
-for i in range(1,5):
+df["Date"] = pd.to_datetime(
+    df["timestamp"],
+    unit="ms",
+    utc=True,
+    # format=TIME_FMT
+).dt.tz_convert(tz=TIMEZONE)
+for i in range(1,N_SENSORS+1):
     # Convert temperature from Celsius to Fahrenheit
     df[f"temp{i}"] = df[f"temp{i}"] / 10.0
     df[f"temp{i}"] = df[f"temp{i}"] * (9.0/5.0) + 32
@@ -39,7 +58,12 @@ for i in range(1,5):
     df[f"hum{i}"] = df[f"hum{i}"] / 10.0
 
 weather_df = pd.read_csv("weather_data.csv")
-weather_df["Date"] = pd.to_datetime(weather_df["Timestamp"]/1e3, unit="s")
+weather_df["Date"] = pd.to_datetime(
+    weather_df["Timestamp"],
+    unit="ms",
+    utc=True,
+    # format=TIME_FMT
+).dt.tz_convert(tz=TIMEZONE)
 
 fig = make_subplots(
     rows=3,
@@ -60,7 +84,7 @@ fig.add_trace(
     1,
     1
 )
-for i in range(1,5):
+for i in range(1,N_SENSORS+1):
     fig.add_trace(
         go.Scatter(
             x=list(df.Date),
@@ -95,7 +119,7 @@ fig.add_trace(
     2,
     1
 )
-for i in range(1,5):
+for i in range(1,N_SENSORS+1):
     fig.add_trace(
         go.Scatter(
             x=list(df.Date),
@@ -119,7 +143,7 @@ fig.add_annotation(
 )
 
 # Battery plot
-for i in range(1,5):
+for i in range(1,N_SENSORS+1):
     fig.add_trace(
         go.Scatter(
             x=list(df.Date),

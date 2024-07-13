@@ -111,9 +111,11 @@ if __name__ == "__main__":
 
     device_ids = [
         "eb31c4a2913640b0d1xowo",  # Sensor 1 - hallway
-        "ebf562fa0e3423e8cbmwfy",  # Sensor 2 - kitchen
+        "ebf562fa0e3423e8cbmwfy",  # Sensor 2 - attic
         "eb17d322c22622aa27z5tl",  # Sensor 3 - bedroom
         "ebd316a0fbb97cc669d2pv",  # Sensor 4 - back room
+        "eb26dc26a384eb3809rujs",  # Sensor 5 - kitchen
+        "eb0594185e8a66f8b8f6cf",  # Sensor 6 - crawl space
     ]
     ###
 
@@ -174,7 +176,10 @@ if __name__ == "__main__":
                 case "va_temperature":
                     temps.append(dp["value"])
                 case "va_humidity":
-                    hums.append(dp["value"])
+                    hum_dp = dp["value"]
+                    if int(hum_dp) < 100:       # In some of the sensors, the humidity is reported without a digit for the decimal. Here, I assume the humidity will never be lower than 10%. If the value is less than 100 (10.0%), then assume it's two digits so shift the digits to the left.
+                        hum_dp *= 10
+                    hums.append(hum_dp)
                 case "battery_percentage":
                     batts.append(dp["value"])
 
