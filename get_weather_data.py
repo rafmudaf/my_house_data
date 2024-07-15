@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 if __name__ == "__main__":
 
     # Start date
-    start_date = datetime(2024, 7, 3)
+    start_date = datetime(2024, 7, 13)
     # End date (today)
-    end_date = datetime(2024, 7, 7)
+    end_date = datetime(2024, 7, 14)
 
     # Loop over the dates
     current_date = start_date
