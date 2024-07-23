@@ -2,6 +2,12 @@
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import pandas as pd
+import scicomap as sc
+
+temp_colors = sc.ScicoSequential(cmap='chroma_r').get_mpl_color_map()
+hum_colors = sc.ScicoSequential(cmap='chroma_r').get_mpl_color_map()
+# The sequential maps have 256 colors
+COLOR_GAP = 256 // 6
 
 ROOMMAP = {
     1: "Hallway (Ref)",
@@ -11,22 +17,25 @@ ROOMMAP = {
     5: "Kitchen",
     6: "Crawl space",
 }
-TEMPCOLORS = {
-    1: "#000",
-    2: "#fa6efa",
-    3: "#cd298b",
-    4: "#5c2832",
-    5: "#000",
-    6: "#000",
-}
-HUMCOLORS = {
-    1: "#000",
-    2: "#698cfd",
-    3: "#2749f5",
-    4: "#0f20c3",
-    5: "#000",
-    6: "#000",
-}
+
+TEMPCOLORS = { i: f"rgb{tuple(temp_colors.colors[i*COLOR_GAP])}"  for i in range(1,7) }
+HUMCOLORS = { i: f"rgb{tuple(hum_colors.colors[i*COLOR_GAP])}"  for i in range(1,7) }
+# TEMPCOLORS = {
+#     1: "#000",
+#     2: "#fa6efa",
+#     3: "#cd298b",
+#     4: "#5c2832",
+#     5: "#000",
+#     6: "#000",
+# }
+# HUMCOLORS = {
+#     1: "#000",
+#     2: "#698cfd",
+#     3: "#2749f5",
+#     4: "#0f20c3",
+#     5: "#000",
+#     6: "#000",
+# }
 BATTCOLORS = {
     1: "#000",
     2: "#b8b8b8",
@@ -83,9 +92,13 @@ fig.add_trace(
     go.Scatter(
         x=list(weather_df.Date),
         y=list(weather_df["Temperature"]),
-        # visible="legendonly"
         name=f"St Roch Temperature",
-        # line_color=TEMPCOLORS[i],
+        legend="legend",
+        line=dict(
+            color="#000",
+            width=1.0,
+            dash="dash"
+        )
     ),
     1,
     1,
@@ -95,11 +108,11 @@ fig.add_trace(
     go.Scatter(
         x=list(weather_df.Date),
         y=list(weather_df["Solar"]),
-        # visible="legendonly"
         name=f"St Roch Solar Radiance",
+        legend="legend",
         line=dict(
             color="#000",
-            width=0.8,
+            width=1.0,
             dash="dot"
         )
     ),
@@ -112,7 +125,6 @@ for i in range(1,N_SENSORS+1):
         go.Scatter(
             x=list(df.Date),
             y=list(df[f"temp{i}"]),
-            # visible="legendonly"
             name=f"{ROOMMAP[i]}",
             line_color=TEMPCOLORS[i],
         ),
@@ -136,9 +148,12 @@ fig.add_trace(
     go.Scatter(
         x=list(weather_df.Date),
         y=list(weather_df["Humidity"]),
-        # visible="legendonly"
         name=f"St Roch Humidity",
-        # line_color=TEMPCOLORS[i],
+        line=dict(
+            color="#000",
+            width=1.0,
+            dash="dot"
+        )
     ),
     2,
     1
@@ -148,7 +163,6 @@ for i in range(1,N_SENSORS+1):
         go.Scatter(
             x=list(df.Date),
             y=list(df[f"hum{i}"]),
-            # visible="legendonly"
             name=f"{ROOMMAP[i]}",
             line_color=HUMCOLORS[i],
         ),
@@ -172,7 +186,6 @@ for i in range(1,N_SENSORS+1):
         go.Scatter(
             x=list(df.Date),
             y=list(df[f"batt{i}"]),
-            # visible="legendonly"
             name=f"{ROOMMAP[i]}",
             line_color=BATTCOLORS[i],
         ),
