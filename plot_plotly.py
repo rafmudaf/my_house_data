@@ -126,6 +126,7 @@ for i in range(1,N_SENSORS+1):
             x=list(df.Date),
             y=list(df[f"temp{i}"]),
             name=f"{ROOMMAP[i]}",
+            legend="legend",
             line_color=TEMPCOLORS[i],
         ),
         1,
@@ -149,6 +150,7 @@ fig.add_trace(
         x=list(weather_df.Date),
         y=list(weather_df["Humidity"]),
         name=f"St Roch Humidity",
+        legend="legend2",
         line=dict(
             color="#000",
             width=1.0,
@@ -164,6 +166,7 @@ for i in range(1,N_SENSORS+1):
             x=list(df.Date),
             y=list(df[f"hum{i}"]),
             name=f"{ROOMMAP[i]}",
+            legend="legend2",
             line_color=HUMCOLORS[i],
         ),
         2,
@@ -187,6 +190,7 @@ for i in range(1,N_SENSORS+1):
             x=list(df.Date),
             y=list(df[f"batt{i}"]),
             name=f"{ROOMMAP[i]}",
+            showlegend=False,
             line_color=BATTCOLORS[i],
         ),
         3,
@@ -254,6 +258,11 @@ fig.update_layout(
     ),
     # xaxis3_rangeslider_visible=True,
     # xaxis3_type="date"
+    legend={
+    },
+    legend2={
+        "y": 0.555,
+    },
 )
 
 fig.write_html("docs/index.html")
